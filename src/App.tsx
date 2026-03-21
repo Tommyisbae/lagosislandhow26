@@ -37,16 +37,16 @@ const FaqItem = ({
 
 const heroImages = [
   {
-    desktop: 'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69be6ee33e1b3d07f2465655_Frame%208%20(4).png',
+    desktop: 'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69be7b9628f2e3da00c61ee0_Frame%208%20(7).png',
+    mobile: 'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69bbf5399a5fb21e4db20559_ENO_2005%20(2)%20(1).jpg'
+  },
+  {
+    desktop: 'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69be7b979103d77b3a569e4f_Frame%208%20(5).png',
+    mobile: 'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69bc14251611af77e8c20449_ENO_2170%20(1).jpg'
+  },
+  {
+    desktop: 'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69be7b9676aba3c08af97596_Frame%208%20(6).png',
     mobile: 'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69bc142556bb6076830f849e_ENO_2196%20(1).jpg'
-  },
-  {
-    desktop: 'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69be6ee30f248cc0b1ddf772_Frame%208%20(3).png',
-    mobile: 'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69bc14250d179aa2621230a7_ENO_2258%20(1).jpg'
-  },
-  {
-    desktop: 'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69be6d96c7334c19a3c680ce_Frame%208%20(1).png',
-    mobile: 'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69bc142599d0d256ccf8f41c_ENO_2270%20(1).jpg'
   }
 ];
 
@@ -479,7 +479,7 @@ function Home() {
             <div className="ticket-card recommended reveal">
               <div className="ticket-badge">Recommended</div>
               <div className="section-label" style={{ marginTop: '8px' }}>Option A</div>
-              <div className="ticket-price">₦40,000</div>
+              <div className="ticket-price">₦50,000</div>
               <div className="ticket-desc">One-time full payment</div>
               <ul className="ticket-features">
                 <li>Access to all six days of events</li>
@@ -492,7 +492,7 @@ function Home() {
             <div className="ticket-card reveal" style={{ transitionDelay: '100ms' }}>
               <div className="ticket-badge grey">Flexible</div>
               <div className="section-label" style={{ marginTop: '8px' }}>Option B</div>
-              <div className="ticket-price">₦20,000</div>
+              <div className="ticket-price">₦25,000</div>
               <div className="ticket-desc">× 2 instalments</div>
               <ul className="ticket-features">
                 <li>All events after 2nd payment</li>
@@ -537,7 +537,7 @@ function Home() {
               toggleFaq={setActiveFaq}
               delay="0ms"
               question="Can I pay in instalments?"
-              answer="Yes. Option B allows you to split the ₦40,000 fee into two payments of ₦20,000 each. Full access to all events is granted after the second instalment is confirmed."
+              answer="Yes. Option B allows you to split the ₦50,000 fee into two payments of ₦25,000 each. Full access to all events is granted after the second instalment is confirmed."
             />
             <FaqItem 
               index={1}
