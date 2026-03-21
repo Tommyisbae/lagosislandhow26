@@ -51,6 +51,12 @@ const heroImages = [
 ];
 
 const galleryImages = [
+  'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69be7623d18ab5e99e99c6b0_WhatsApp%20Image%202026-03-21%20at%2011.34.23.jpeg',
+  'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69be7623ad515e4387d02592_WhatsApp%20Image%202026-03-21%20at%2011.39.17.jpeg',
+  'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69be7444d4f024577925bc60_WhatsApp%20Image%202026-03-21%20at%2011.32.41.jpeg',
+  'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69be74446a1cc6567af64d68_WhatsApp%20Image%202026-03-21%20at%2011.32.40.jpeg',
+  'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69be7444c76cdbe1cd8e8cd5_WhatsApp%20Image%202026-03-21%20at%2011.32.41%20(1).jpeg',
+  'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69be74440152fd73dce4705f_WhatsApp%20Image%202026-03-21%20at%2011.32.41%20(2).jpeg',
   'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69bc142556bb6076830f849e_ENO_2196%20(1).jpg',
   'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69bc14250d179aa2621230a7_ENO_2258%20(1).jpg',
   'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69bc142599d0d256ccf8f41c_ENO_2270%20(1).jpg',
@@ -494,7 +500,7 @@ function Home() {
                 <li>Official event merchandise</li>
                 <li>Spread the cost over two payments</li>
               </ul>
-              <a href="#" target="_blank" rel="noopener noreferrer" className="ticket-btn outline">Start Plan</a>
+              <a href="https://paystack.shop/pay/lagosislandhow26-installment" target="_blank" rel="noopener noreferrer" className="ticket-btn outline">Start Plan</a>
             </div>
           </div>
           <p className="tickets-note">Payment deadline: 24th April 2026. Payments are non-refundable.<br/>Open to Medical and Dental House Officers at General Hospital Lagos, Lagos Island Maternity Hospital, and Massey Street Children Hospital.</p>
