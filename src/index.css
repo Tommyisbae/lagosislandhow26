@@ -225,23 +225,29 @@ h1, h2, h3, h4, h5, h6 {
   overflow: hidden;
   background: var(--black);
 }
-.hero-bg {
+.hero-bg-slide {
   position: absolute; 
   top: -15%; left: -10%; right: -10%; bottom: -15%;
-  background-image: url('https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69bbf5399a5fb21e4db20559_ENO_2005%20(2)%20(1).jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   transform: translateZ(0);
   will-change: transform;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+  z-index: 1;
+}
+.hero-bg-slide.active {
+  opacity: 1;
 }
 .hero-overlay {
   position: absolute; inset: 0;
   background: linear-gradient(to bottom, rgba(13,13,13,0.4) 0%, rgba(13,13,13,0.85) 100%);
+  z-index: 2;
 }
 .hero-content {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   padding: 0 var(--px);
   max-width: 900px;
   margin-top: 60px;
@@ -282,6 +288,47 @@ h1, h2, h3, h4, h5, h6 {
   transform: translateY(20px);
   animation: fadeUp 0.8s ease 0.9s forwards;
 }
+
+.countdown {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin: 32px 0;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.8s ease 0.8s forwards;
+}
+.countdown-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(26, 26, 26, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(139, 111, 71, 0.3);
+  border-radius: 8px;
+  padding: 16px;
+  min-width: 80px;
+}
+.countdown-value {
+  font-family: var(--serif);
+  font-size: 32px;
+  color: var(--gold-light);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.countdown-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--white);
+}
+
+@media(max-width: 640px) {
+  .countdown { gap: 8px; margin: 24px 0; }
+  .countdown-item { min-width: 60px; padding: 10px; }
+  .countdown-value { font-size: 24px; }
+}
+
 .hero-btn {
   display: inline-block;
   padding: 16px 40px;
@@ -407,10 +454,49 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 6px;
   border: 1px solid var(--divider);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 .expect-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+}
+.expect-details {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-in-out, margin-top 0.4s ease-in-out, opacity 0.4s ease-in-out;
+  opacity: 0;
+}
+.expect-card.expanded .expect-details {
+  max-height: 300px;
+  margin-top: 16px;
+  opacity: 1;
+}
+.expect-details p {
+  border-top: 1px solid var(--divider);
+  padding-top: 16px;
+  font-size: 14px;
+  color: var(--grey);
+  line-height: 1.6;
+}
+.expect-toggle {
+  margin-top: auto;
+  padding-top: 24px;
+  background: none;
+  border: none;
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: color 0.3s;
+}
+.expect-toggle:hover {
+  color: var(--gold-light);
 }
 .expect-icon {
   width: 48px; height: 48px;
@@ -1082,6 +1168,6 @@ h1, h2, h3, h4, h5, h6 {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
-  .hero-bg { transform: none !important; }
+  .hero-bg-slide { transform: none !important; }
   .reveal, .reveal-left, .reveal-right { opacity: 1; transform: none; }
 }

@@ -19,19 +19,36 @@ const FaqItem = ({
   const isActive = activeFaq === index;
 
   return (
-    <div className={`faq-item ${isActive ? 'active' : ''}`}>
-      <button className="faq-question" onClick={() => toggleFaq(isActive ? null : index)}>
-        <span>{question}</span>
-        <div className="faq-icon"></div>
-      </button>
-      <div className="faq-answer">
-        <div className="faq-answer-inner">
-          <div className="faq-answer-content">{answer}</div>
+    <div className="reveal" style={{ transitionDelay: delay }}>
+      <div className={`faq-item ${isActive ? 'active' : ''}`}>
+        <button className="faq-question" onClick={() => toggleFaq(isActive ? null : index)}>
+          <span>{question}</span>
+          <div className="faq-icon"></div>
+        </button>
+        <div className="faq-answer">
+          <div className="faq-answer-inner">
+            <div className="faq-answer-content">{answer}</div>
+          </div>
         </div>
       </div>
     </div>
   );
 };
+
+const heroImages = [
+  {
+    desktop: 'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69be6ee33e1b3d07f2465655_Frame%208%20(4).png',
+    mobile: 'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69bc142556bb6076830f849e_ENO_2196%20(1).jpg'
+  },
+  {
+    desktop: 'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69be6ee30f248cc0b1ddf772_Frame%208%20(3).png',
+    mobile: 'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69bc14250d179aa2621230a7_ENO_2258%20(1).jpg'
+  },
+  {
+    desktop: 'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69be6d96c7334c19a3c680ce_Frame%208%20(1).png',
+    mobile: 'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69bc142599d0d256ccf8f41c_ENO_2270%20(1).jpg'
+  }
+];
 
 const galleryImages = [
   'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69bc142556bb6076830f849e_ENO_2196%20(1).jpg',
@@ -57,6 +74,59 @@ const galleryImages = [
   'https://cdn.prod.website-files.com/69bbf48d2d81217887d76b48/69bc3e68fbda6ac4e5b3314b_WhatsApp%20Image%202026-03-18%20at%2020.02.32.jpeg'
 ];
 
+const expectData = [
+  {
+    icon: '✦',
+    title: 'Career & Networking Sessions',
+    shortDesc: 'Expert-led panels and mentorship circles to chart your path beyond house job.',
+    longDesc: 'Featuring keynote speakers from top medical institutions, CV review workshops, and networking mixers with consultants and hospital directors. Learn about residency programs, alternative medical careers, and international pathways.'
+  },
+  {
+    icon: '⚽',
+    title: 'Sports & Wellness',
+    shortDesc: 'Friendly inter-hospital competition across football, athletics, and more.',
+    longDesc: 'Compete in the highly anticipated inter-hospital football tournament, track events, and board games. Includes wellness sessions focused on physician mental health and work-life balance.'
+  },
+  {
+    icon: '🤝',
+    title: 'Community Outreach',
+    shortDesc: 'Give back to the communities we serve — a reminder of why we chose medicine.',
+    longDesc: 'A medical mission providing free consultations, health screenings, and medications to underserved communities within Lagos Island, demonstrating our commitment to public health.'
+  },
+  {
+    icon: '🎭',
+    title: 'Costume & Memorials',
+    shortDesc: 'Celebrate creativity and honour those who\'ve shaped our medical journey.',
+    longDesc: 'A vibrant day of creative expression where doctors trade scrubs for costumes, alongside a solemn memorial honoring colleagues we\'ve lost and celebrating their contributions.'
+  },
+  {
+    icon: '🏛️',
+    title: 'Courtesy Visits',
+    shortDesc: 'Engage with key stakeholders including the Lagos State Governor\'s office.',
+    longDesc: 'Official visits to the Lagos State Governor\'s Office and the Oba of Lagos, strengthening the bond between healthcare providers and state leadership while advocating for better healthcare policies.'
+  },
+  {
+    icon: '🍽️',
+    title: 'Dinner & Awards',
+    shortDesc: 'A grand closing evening of recognition, fine dining, and celebration.',
+    longDesc: 'The grand finale featuring a red-carpet gala, three-course dinner, live entertainment, and awards recognizing outstanding house officers across various departments and hospitals.'
+  }
+];
+
+const calculateTimeLeft = () => {
+  const difference = +new Date('2026-04-26T00:00:00') - +new Date();
+  let timeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 };
+  if (difference > 0) {
+    timeLeft = {
+      days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((difference / 1000 / 60) % 60),
+      seconds: Math.floor((difference / 1000) % 60)
+    };
+  }
+  return timeLeft;
+};
+
 function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -64,6 +134,24 @@ function Home() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
+  
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const [currentHeroImage, setCurrentHeroImage] = useState(0);
+  const [expandedExpect, setExpandedExpect] = useState<number | null>(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+    return () => clearTimeout(timer);
+  });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentHeroImage((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -153,16 +241,50 @@ function Home() {
 
       {/* HERO */}
       <section className="hero" id="hero">
-        <div 
-          className="hero-bg" 
-          id="heroBg"
-          style={{ transform: `translate3d(0, ${heroBgTranslate}px, 0)` }}
-        ></div>
+        {heroImages.map((img, idx) => (
+          <div 
+            key={idx}
+            className={`hero-bg-slide ${idx === currentHeroImage ? 'active' : ''}`}
+            style={{ 
+              transform: `translate3d(0, ${heroBgTranslate}px, 0)` 
+            }}
+          >
+            <picture>
+              <source media="(min-width: 768px)" type="image/webp" srcSet={`https://wsrv.nl/?url=${encodeURIComponent(img.desktop)}&output=webp&w=1600`} />
+              <source media="(max-width: 767px)" type="image/webp" srcSet={`https://wsrv.nl/?url=${encodeURIComponent(img.mobile)}&output=webp&w=800`} />
+              <img 
+                src={`https://wsrv.nl/?url=${encodeURIComponent(img.mobile)}&w=800`} 
+                alt="Lagos Island HOW '26" 
+                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} 
+              />
+            </picture>
+          </div>
+        ))}
         <div className="hero-overlay"></div>
         <div className="hero-content">
           <div className="section-label">26th April — 1st May 2026</div>
           <h1 className="hero-title">Lagos Island<br/>House Officers' Week</h1>
           <p className="hero-theme">Theme: The Island of Healthcare</p>
+          
+          <div className="countdown">
+            <div className="countdown-item">
+              <span className="countdown-value">{timeLeft.days}</span>
+              <span className="countdown-label">Days</span>
+            </div>
+            <div className="countdown-item">
+              <span className="countdown-value">{timeLeft.hours}</span>
+              <span className="countdown-label">Hours</span>
+            </div>
+            <div className="countdown-item">
+              <span className="countdown-value">{timeLeft.minutes}</span>
+              <span className="countdown-label">Mins</span>
+            </div>
+            <div className="countdown-item">
+              <span className="countdown-value">{timeLeft.seconds}</span>
+              <span className="countdown-label">Secs</span>
+            </div>
+          </div>
+
           <p className="hero-meta">Lagos State &nbsp;·&nbsp; Nigeria</p>
           <a href="#about" className="hero-btn">Explore the Week</a>
         </div>
@@ -198,36 +320,28 @@ function Home() {
             <h2>Six Days, One Island</h2>
           </div>
           <div className="expect-grid">
-            <div className="expect-card reveal" style={{ transitionDelay: '0ms' }}>
-              <div className="expect-icon">✦</div>
-              <h3>Career &amp; Networking Sessions</h3>
-              <p>Expert-led panels and mentorship circles to chart your path beyond house job.</p>
-            </div>
-            <div className="expect-card reveal" style={{ transitionDelay: '80ms' }}>
-              <div className="expect-icon">⚽</div>
-              <h3>Sports &amp; Wellness</h3>
-              <p>Friendly inter-hospital competition across football, athletics, and more.</p>
-            </div>
-            <div className="expect-card reveal" style={{ transitionDelay: '160ms' }}>
-              <div className="expect-icon">🤝</div>
-              <h3>Community Outreach</h3>
-              <p>Give back to the communities we serve — a reminder of why we chose medicine.</p>
-            </div>
-            <div className="expect-card reveal" style={{ transitionDelay: '240ms' }}>
-              <div className="expect-icon">🎭</div>
-              <h3>Costume &amp; Memorials</h3>
-              <p>Celebrate creativity and honour those who've shaped our medical journey.</p>
-            </div>
-            <div className="expect-card reveal" style={{ transitionDelay: '320ms' }}>
-              <div className="expect-icon">🏛️</div>
-              <h3>Courtesy Visits</h3>
-              <p>Engage with key stakeholders including the Lagos State Governor's office.</p>
-            </div>
-            <div className="expect-card reveal" style={{ transitionDelay: '400ms' }}>
-              <div className="expect-icon">🍽️</div>
-              <h3>Dinner &amp; Awards</h3>
-              <p>A grand closing evening of recognition, fine dining, and celebration.</p>
-            </div>
+            {expectData.map((item, idx) => (
+              <div 
+                key={idx} 
+                className="reveal" 
+                style={{ transitionDelay: `${idx * 80}ms` }}
+              >
+                <div 
+                  className={`expect-card ${expandedExpect === idx ? 'expanded' : ''}`} 
+                  onClick={() => setExpandedExpect(expandedExpect === idx ? null : idx)}
+                >
+                  <div className="expect-icon">{item.icon}</div>
+                  <h3>{item.title}</h3>
+                  <p>{item.shortDesc}</p>
+                  <div className="expect-details">
+                    <p>{item.longDesc}</p>
+                  </div>
+                  <button className="expect-toggle">
+                    {expandedExpect === idx ? 'Show Less' : 'Read More'}
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
