@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, ReactNode } from 'react';
+import React, { useState, useEffect, useRef, ReactNode } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
 const FaqItem = ({ 
@@ -144,6 +144,52 @@ function Home() {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
   const [currentHeroImage, setCurrentHeroImage] = useState(0);
   const [expandedExpect, setExpandedExpect] = useState<number | null>(null);
+  const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
+  const [selectedTicketType, setSelectedTicketType] = useState('');
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [checkoutForm, setCheckoutForm] = useState({
+    name: '', email: '', phone: '', hospital: ''
+  });
+
+  const openCheckout = (type: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    setSelectedTicketType(type);
+    setIsCheckoutModalOpen(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeCheckout = () => {
+    setIsCheckoutModalOpen(false);
+    document.body.style.overflow = '';
+  };
+
+  const handleCheckoutSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsCheckingOut(true);
+    
+    const requestData = {
+      ticketType: selectedTicketType,
+      ...checkoutForm
+    };
+
+    try {
+      const response = await fetch('/api/initiate-payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestData)
+      });
+      const data = await response.json();
+      if (data.checkout_url) {
+        window.location.href = data.checkout_url;
+      } else {
+        alert("Error: " + data.error);
+        setIsCheckingOut(false);
+      }
+    } catch (error) {
+      alert("Connection error. Please try again.");
+      setIsCheckingOut(false);
+    }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -479,7 +525,7 @@ function Home() {
             <div className="ticket-card recommended reveal">
               <div className="ticket-badge">Recommended</div>
               <div className="section-label" style={{ marginTop: '8px' }}>Option A</div>
-              <div className="ticket-price">₦50,000</div>
+              <div className="ticket-price">₦200</div>
               <div className="ticket-desc">One-time full payment</div>
               <ul className="ticket-features">
                 <li>Access to all six days of events</li>
@@ -487,12 +533,12 @@ function Home() {
                 <li>Official event merchandise</li>
                 <li>Immediate confirmation</li>
               </ul>
-              <a href="https://paystack.shop/pay/lagosislandhow26" target="_blank" rel="noopener noreferrer" className="ticket-btn">Pay Now</a>
+              <button onClick={(e) => openCheckout('Option_A', e)} className="ticket-btn">Pay Now</button>
             </div>
             <div className="ticket-card reveal" style={{ transitionDelay: '100ms' }}>
               <div className="ticket-badge grey">Flexible</div>
               <div className="section-label" style={{ marginTop: '8px' }}>Option B</div>
-              <div className="ticket-price">₦25,000</div>
+              <div className="ticket-price">₦100</div>
               <div className="ticket-desc">× 2 instalments</div>
               <ul className="ticket-features">
                 <li>All events after 2nd payment</li>
@@ -500,7 +546,7 @@ function Home() {
                 <li>Official event merchandise</li>
                 <li>Spread the cost over two payments</li>
               </ul>
-              <a href="https://paystack.shop/pay/lagosislandhow26-installment" target="_blank" rel="noopener noreferrer" className="ticket-btn outline">Start Plan</a>
+              <button onClick={(e) => openCheckout('Option_B', e)} className="ticket-btn outline">Start Plan</button>
             </div>
           </div>
           <p className="tickets-note">Payment deadline: 24th April 2026. Payments are non-refundable.<br/>Open to Medical and Dental House Officers at General Hospital Lagos, Lagos Island Maternity Hospital, and Massey Street Children Hospital.</p>
@@ -537,7 +583,7 @@ function Home() {
               toggleFaq={setActiveFaq}
               delay="0ms"
               question="Can I pay in instalments?"
-              answer="Yes. Option B allows you to split the ₦50,000 fee into two payments of ₦25,000 each. Full access to all events is granted after the second instalment is confirmed."
+              answer="Yes. Option B allows you to split the ₦200 fee into two payments of ₦100 each. Full access to all events is granted after the second instalment is confirmed."
             />
             <FaqItem 
               index={1}
@@ -634,6 +680,61 @@ function Home() {
           </div>
         </div>
       </section>
+
+      {/* CHECKOUT MODAL */}
+      {isCheckoutModalOpen && (
+        <div className="modal-overlay" onClick={closeCheckout}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <button className="modal-close" onClick={closeCheckout}>&times;</button>
+            <h3 style={{ fontSize: '24px', marginBottom: '8px', color: 'var(--black)' }}>Enter Your Details</h3>
+            <p style={{ color: 'var(--grey)', marginBottom: '24px', fontSize: '14px' }}>
+              You are purchasing: <strong>{selectedTicketType === 'Option_A' ? 'Option A (₦200)' : 'Option B (₦100)'}</strong>
+            </p>
+            <form className="modal-form" onSubmit={handleCheckoutSubmit}>
+              <input 
+                type="text" 
+                placeholder="Full Name" 
+                required 
+                value={checkoutForm.name}
+                onChange={e => setCheckoutForm({...checkoutForm, name: e.target.value})}
+              />
+              <input 
+                type="email" 
+                placeholder="Email Address" 
+                required 
+                value={checkoutForm.email}
+                onChange={e => setCheckoutForm({...checkoutForm, email: e.target.value})}
+              />
+              <input 
+                type="tel" 
+                placeholder="WhatsApp Number" 
+                required 
+                value={checkoutForm.phone}
+                onChange={e => setCheckoutForm({...checkoutForm, phone: e.target.value})}
+              />
+              <select 
+                required
+                value={checkoutForm.hospital}
+                onChange={e => setCheckoutForm({...checkoutForm, hospital: e.target.value})}
+              >
+                <option value="">Select Hospital</option>
+                <option value="General Hospital, Odan, Lagos">General Hospital, Odan, Lagos</option>
+                <option value="Lagos Island Maternity Hospital">Lagos Island Maternity Hospital</option>
+                <option value="Massey Street Children's Hospital">Massey Street Children's Hospital</option>
+              </select>
+              
+              <div style={{ backgroundColor: 'rgba(212, 175, 55, 0.1)', border: '1px solid var(--gold)', padding: '12px', borderRadius: '4px', fontSize: '12px', color: 'var(--black)', lineHeight: '1.5', marginTop: '4px', marginBottom: '4px' }}>
+                <strong>🔒 Secure Payment Gateway</strong><br/>
+                Please note: To bypass corporate gateway delays, all official event payments are being securely routed through the Chief Medical House Officer's verified merchant account. Your bank transfer screen and receipts may display "Olushina Oladeji".
+              </div>
+
+              <button type="submit" disabled={isCheckingOut}>
+                {isCheckingOut ? 'Loading Secure Checkout...' : 'Proceed to Payment'}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* FOOTER */}
       <footer className="footer">
