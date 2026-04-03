@@ -14,8 +14,8 @@ async function startServer() {
 
     // PROACTIVE SECURITY: The Vault
     const priceList: Record<string, number> = {
-      "Option_A": 200,
-      "Option_B": 100
+      "Option_A": 50000,
+      "Option_B": 25000
     };
 
     const amountToCharge = priceList[ticketType];

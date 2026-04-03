@@ -525,7 +525,7 @@ function Home() {
             <div className="ticket-card recommended reveal">
               <div className="ticket-badge">Recommended</div>
               <div className="section-label" style={{ marginTop: '8px' }}>Option A</div>
-              <div className="ticket-price">₦200</div>
+              <div className="ticket-price">₦50,000</div>
               <div className="ticket-desc">One-time full payment</div>
               <ul className="ticket-features">
                 <li>Access to all six days of events</li>
@@ -538,7 +538,7 @@ function Home() {
             <div className="ticket-card reveal" style={{ transitionDelay: '100ms' }}>
               <div className="ticket-badge grey">Flexible</div>
               <div className="section-label" style={{ marginTop: '8px' }}>Option B</div>
-              <div className="ticket-price">₦100</div>
+              <div className="ticket-price">₦25,000</div>
               <div className="ticket-desc">× 2 instalments</div>
               <ul className="ticket-features">
                 <li>All events after 2nd payment</li>
@@ -583,7 +583,7 @@ function Home() {
               toggleFaq={setActiveFaq}
               delay="0ms"
               question="Can I pay in instalments?"
-              answer="Yes. Option B allows you to split the ₦200 fee into two payments of ₦100 each. Full access to all events is granted after the second instalment is confirmed."
+              answer="Yes. Option B allows you to split the ₦50,000 fee into two payments of ₦25,000 each. Full access to all events is granted after the second instalment is confirmed."
             />
             <FaqItem 
               index={1}
@@ -688,7 +688,7 @@ function Home() {
             <button className="modal-close" onClick={closeCheckout}>&times;</button>
             <h3 style={{ fontSize: '24px', marginBottom: '8px', color: 'var(--black)' }}>Enter Your Details</h3>
             <p style={{ color: 'var(--grey)', marginBottom: '24px', fontSize: '14px' }}>
-              You are purchasing: <strong>{selectedTicketType === 'Option_A' ? 'Option A (₦200)' : 'Option B (₦100)'}</strong>
+              You are purchasing: <strong>{selectedTicketType === 'Option_A' ? 'Option A (₦50,000)' : 'Option B (₦25,000)'}</strong>
             </p>
             <form className="modal-form" onSubmit={handleCheckoutSubmit}>
               <input 

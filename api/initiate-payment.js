@@ -9,8 +9,8 @@ export default async function handler(req, res) {
 
   // 3. PROACTIVE SECURITY: The Vault
   const priceList = {
-    "Option_A": 200,
-    "Option_B": 100
+    "Option_A": 50000,
+    "Option_B": 25000
   };
 
   const amountToCharge = priceList[ticketType];
